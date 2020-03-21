@@ -1,5 +1,5 @@
-Build `$docker build -t itetechmadacr.azurecr.io/nux-api .`
-Run `$docker run -p 6060:60 itetechmadacr.azurecr.io/nux-api`
+Build `$docker build -t itetechmadacr.azurecr.io/nuxapi .`
+Run `$docker run -p 6060:60 itetechmadacr.azurecr.io/nuxapi`
 Open `http://localhost:6060/api/buzzwords`
 Push `$docker push itetechmadacr.azurecr.io/nux-api:latest`
 
