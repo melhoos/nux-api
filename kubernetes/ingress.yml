@@ -1,15 +1,15 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: nuxapi
+  name: nux-api
   annotations:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   rules:
-    - host: nuxapi.e74c370edf4345d39982.westeurope.aksapp.io
+    - host: nux-api.e74c370edf4345d39982.westeurope.aksapp.io
       http:
         paths:
           - backend:
-              serviceName: nuxapi
+              serviceName: nux-api
               servicePort: 6060
             path: /

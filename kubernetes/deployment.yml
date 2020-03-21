@@ -2,22 +2,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nuxapi
+  name: nux-api
   namespace: marianne-playground
   labels:
-    application: nuxapi
+    application: nux-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      application: nuxapi
+      application: nux-api
   template:
     metadata:
       labels:
-        application: nuxapi
+        application: nux-api
     spec:
       containers:
-        - name: nuxapi
-          image: itetechmadacr.azurecr.io/nuxapi:latest
+        - name: nux-api
+          image: itetechmadacr.azurecr.io/nux-api:latest
           ports:
             - containerPort: 60
