@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: nux-api
+  namespace: marianne-playground
   annotations:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
