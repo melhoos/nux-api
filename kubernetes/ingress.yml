@@ -5,6 +5,10 @@ metadata:
   namespace: marianne-playground
   annotations:
     kubernetes.io/ingress.class: addon-http-application-routing
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000/"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
 spec:
   rules:
     - host: nux-api.e74c370edf4345d39982.westeurope.aksapp.io
