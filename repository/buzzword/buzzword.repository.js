@@ -4,46 +4,57 @@ var TYPES = require('tedious').TYPES;
 function BuzzwordRepository(dbContext) {
 
     function getBuzzwords(req, res) {
-        //var query = "GetBuzzwords"
-        var query = "select * from [dbo].Buzzwords"
+        var query = "select * from [dbo].Buzzwords order by Title asc"
         dbContext.getQuery(query, [], false, function (error, data) {
             return res.json(response(data, error));
         });
     }
 
-    // function getBuzzword(req, res) {
-    //     if (req.params.employeeId) {
-    //         var parameters = [];
-    //         parameters.push({ name: 'Id', type: TYPES.Int, val: req.params.employeeId });
-    //         var query = "select * from buzzwords where Id = @Id"
-    //         dbContext.getQuery(query, parameters, false, function (error, data) {
-    //             if (data) {
-    //                 req.data = data[0];
-    //                 return next();
-    //             }
-    //             return res.sendStatus(404);
-    //         });
-    //     }
-    // }
+    function postBuzzword(req, res) {
+        var parameters = [];
+        parameters.push({ name: 'Title', type: TYPES.VarChar, val: req.body.Title });
+        parameters.push({ name: 'Description', type: TYPES.VarChar, val: req.body.Description });
+        var query = "insert into [dbo].Buzzwords (Title, Description) values (@Title, @Description)"
+        dbContext.post(query, parameters, function (error, data) {
+            return res.json(response(data, error));
+        })
+    }
 
-    // function postBuzzwords(req, res) {
-    //     var parameters = [];
-    //     parameters.push({ name: 'FirstName', type: TYPES.VarChar, val: req.body.FirstName });
-    //     parameters.push({ name: 'LastName', type: TYPES.VarChar, val: req.body.LastName });
-    //     parameters.push({ name: 'MiddleName', type: TYPES.VarChar, val: req.body.MiddleName });
-    //     parameters.push({ name: 'DOB', type: TYPES.DateTime, val: new Date(req.body.DOB) });
-    //     parameters.push({ name: 'Designation', type: TYPES.VarChar, val: req.body.Designation });
-    //     parameters.push({ name: 'ReportingTo', type: TYPES.VarChar, val: req.body.ReportingTo });
-    //     parameters.push({ name: 'Salary', type: TYPES.Int, val: req.body.Salary });
-    //     dbContext.post("InsertOrUpdateEmployee", parameters, function (error, data) {
-    //         return res.json(response(data, error));
-    //     });
-    // }
+    function putBuzzword(req, res) {
+        var parameters = [];
+        parameters.push({ name: 'Id', type: TYPES.VarChar, val: req.params.id });
+        parameters.push({ name: 'Title', type: TYPES.VarChar, val: req.body.Title });
+        parameters.push({ name: 'Description', type: TYPES.VarChar, val: req.body.Description });
+        var query = "update [dbo].Buzzwords set Title = @Title, Description = @Description where Id = @Id"
+        dbContext.getQuery(query, parameters, false, function(error, data, rowCount) {
+            if (rowCount > 0) {
+                return res.json('Record is updated');
+            }
+            return res.sendStatus(404);
+        })
+    }
+
+    function deleteBuzzwrod(req, res) {
+        if (req.params.id) {
+            var parameters = [];
+            parameters.push({ name: 'Id', type: TYPES.VarChar, val: req.params.id });
+            var query = "delete from [dbo].Buzzwords where Id = @Id"
+            dbContext.getQuery(query, parameters, false, function(error, data, rowCount) {
+                if (rowCount > 0) {
+                    return res.json('Record is deleted');
+                }
+                return res.sendStatus(404);
+            })
+
+        }
+    } 
+
 
     return {
-            getAll: getBuzzwords
-            // get: getEmployee,
-            // post: postEmployees 
+            getAll: getBuzzwords,
+            post: postBuzzword,
+            put: putBuzzword,
+            delete: deleteBuzzwrod
         }
     }
     

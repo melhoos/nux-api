@@ -12,6 +12,7 @@ function sendDbResponse(err, rowCount, data, callback) {
 }
 
 function buildRow(columns, data) {
+    console.log("colums? ", columns)
     var row = {};
     columns.forEach(function (column) {
         row[column.metadata.colName] = column.value

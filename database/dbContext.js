@@ -20,7 +20,7 @@ function spGetExecute(qry, callback) {
             data = [];
         });
 
-    connection.callProcedure(request);
+    connection.execSql(request);
 }
 
 // post
@@ -34,12 +34,12 @@ function spPostExecute(qry, params, callback) {
     params.forEach(param => {
         request.addParameter(param.name, param.type, param.val);
     });
-    
+
     request.on('row', function (columns) {
         utility.buildRow(columns, newdata);
     });
-    
-    connection.callProcedure(request);
+
+    connection.execSql(request);
 }
 
 function queryGetExecute(qry, params, isMultiSet, callback) {
@@ -47,10 +47,8 @@ function queryGetExecute(qry, params, isMultiSet, callback) {
     var dataset = [];
     var resultset = 0;
 
-    console.log('hi')
     request = new Request(qry, function (err, rowCount) {
         utility.sendDbResponse(err, rowCount, dataset, callback);
-
     });
 
     params.forEach(param => {

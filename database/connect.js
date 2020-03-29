@@ -1,11 +1,12 @@
 var Connection = require('tedious').Connection;
+
 var config = {
     server: 'ite-tech-mad-sqlsrv.database.windows.net',
     authentication: {
         type: 'default',
         options: {
-            userName: '####',
-            password: '####'
+            userName: '',
+            password: ""
         }
     },
     options: {
@@ -16,6 +17,7 @@ var config = {
     }
 }
 var connection = new Connection(config);
+
 connection.on('connect', function (err) {
     if (err) {
         console.log(err);
