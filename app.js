@@ -12,21 +12,19 @@ var allowedOrigins = [
     'http://nux-admin.e74c370edf4345d39982.westeurope.aksapp.io' // nux-admin
 ];
 
-app.use(cors())
-// app.use(cors({
-//     origin: function(origin, callback) {
-//         console.log("------- origin!? ", origin)
-//         // allow requests with no origin
-//         // (like mobile apps or curl requests)
-//         if (!origin) return callback(null, true);
-//         if (allowedOrigins.indexOf(origin) === -1) {
-//             var msg = 'The CORS policy for this site does not ' +
-//                         'allow access from the specified Origin.';
-//             return callback(new Error(msg), false);
-//         }
-//         return callback(null, true);
-//     }
-// }));
+app.use(cors({
+    origin: function(origin, callback) {
+        // allow requests with no origin
+        // (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            var msg = 'The CORS policy for this site does not ' +
+                        'allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    }
+}));
 
 app.listen(port, () => {
     console.log(`Hi, port ${port} is running`);
