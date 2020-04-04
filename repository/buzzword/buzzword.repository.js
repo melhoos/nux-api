@@ -28,9 +28,15 @@ function BuzzwordRepository(dbContext) {
         var query = "update [dbo].Buzzwords set Title = @Title, Description = @Description where Id = @Id"
         dbContext.getQuery(query, parameters, false, function(error, data, rowCount) {
             if (rowCount > 0) {
-                return res.json('Record is updated');
+                return res.json({
+                    status: 200,
+                    message: 'Record updated'
+                })
             }
-            return res.sendStatus(404);
+            return res.json({
+                status: 404,
+                message: 'Record not updated'
+            })
         })
     }
 
@@ -41,14 +47,18 @@ function BuzzwordRepository(dbContext) {
             var query = "delete from [dbo].Buzzwords where Id = @Id"
             dbContext.getQuery(query, parameters, false, function(error, data, rowCount) {
                 if (rowCount > 0) {
-                    return res.json('Record is deleted');
+                    return res.json({
+                        status: 200,
+                        message: 'Record is deleted'
+                    })
                 }
-                return res.sendStatus(404);
+                return res.json({
+                    status: 404,
+                    message: 'Record not deleted'
+                })
             })
-
         }
     } 
-
 
     return {
             getAll: getBuzzwords,
