@@ -5,4 +5,6 @@ module.exports = function (router) {
     const conferenceRepository = _conferenceRepository(dbContext);
     router.route('/conferences')
         .get(conferenceRepository.getAll);
+    router.route('/conferencesFromToday')
+        .get(conferenceRepository.getAllFromToday);
 }

@@ -10,8 +10,16 @@ function BuzzwordRepository(dbContext) {
         });
     }
 
+    function getAllConferencesFromToday(req, res) {
+        query = "select * from [dbo].[Conferences] where StartDate > GETDATE()"
+        dbContext.getQuery(query, [], false, function (error, data) {
+            return res.json(response(data, error));
+        });
+    }
+
     return {
-            getAll: getConferences
+            getAll: getConferences,
+            getAllFromToday: getAllConferencesFromToday
         }
     }
     
