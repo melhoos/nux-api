@@ -5,8 +5,8 @@ var config = {
     authentication: {
         type: 'default',
         options: {
-            userName: '',
-            password: ""
+            userName: 'testUser1',
+            password: "pass123?"
         }
     },
     options: {
