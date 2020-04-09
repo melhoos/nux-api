@@ -1,17 +1,18 @@
 var Connection = require('tedious').Connection;
+var conf = require('./utility/dbConfig');
 
 var config = {
-    server: 'ite-tech-mad-sqlsrv.database.windows.net',
+    server: conf.dbServer,
     authentication: {
         type: 'default',
         options: {
-            userName: 'testUser1',
-            password: "pass123?"
+            userName: conf.dbUser,
+            password: conf.dbPassword,
+            language: conf.dbLang
         }
     },
     options: {
-        database: 'ite-tech-mad-sqldb',
-        //instanceName: 'Sqlexpress',
+        database: conf.dbName,
         rowCollectionOnDone: true,
         useColumnNames: false
     }

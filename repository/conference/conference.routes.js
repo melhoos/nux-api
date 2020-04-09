@@ -7,4 +7,6 @@ module.exports = function (router) {
         .get(conferenceRepository.getAll);
     router.route('/conferencesFromToday')
         .get(conferenceRepository.getAllFromToday);
+    router.route('/conferencesBySearch')
+        .post(conferenceRepository.getBySearch);
 }
