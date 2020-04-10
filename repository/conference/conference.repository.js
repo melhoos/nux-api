@@ -46,6 +46,66 @@ function BuzzwordRepository(dbContext) {
         });
     }
 
+    function postConference(req, res) {
+        var parameters = [];
+        parameters.push({ name: 'Name', type: TYPES.VarChar, val: req.body.Name });
+        parameters.push({ name: 'Description', type: TYPES.VarChar, val: req.body.Description });
+        parameters.push({ name: 'City', type: TYPES.VarChar, val: req.body.City });
+        parameters.push({ name: 'Country', type: TYPES.VarChar, val: req.body.Country });
+        parameters.push({ name: 'URL', type: TYPES.VarChar, val: req.body.URL });
+        parameters.push({ name: 'StartDate', type: TYPES.VarChar, val: req.body.StartDate });
+        parameters.push({ name: 'EndDate', type: TYPES.VarChar, val: req.body.EndDate });
+        var query = "insert into [dbo].[Conferences] (Name, Description, City, Country, StartDate, EndDate, URL) values (@Name, @Description, @City, @Country, @StartDate, @EndDate, @URL)"
+        dbContext.post(query, parameters, function (error, data) {
+            return res.json(response(data, error));
+        })
+    }
+
+    function putConference(req, res) {
+        var parameters = [];
+        parameters.push({ name: 'Id', type: TYPES.VarChar, val: req.params.id });
+        parameters.push({ name: 'Name', type: TYPES.VarChar, val: req.body.Name });
+        parameters.push({ name: 'Description', type: TYPES.VarChar, val: req.body.Description });
+        parameters.push({ name: 'City', type: TYPES.VarChar, val: req.body.City });
+        parameters.push({ name: 'Country', type: TYPES.VarChar, val: req.body.Country });
+        parameters.push({ name: 'URL', type: TYPES.VarChar, val: req.body.URL });
+        parameters.push({ name: 'StartDate', type: TYPES.VarChar, val: req.body.StartDate });
+        parameters.push({ name: 'EndDate', type: TYPES.VarChar, val: req.body.EndDate });
+        var query = "update [dbo].[Conferences] set Name = @Name, Description = @Description, City = @City, Country = @Country, URL = @URL, StartDate = @StartDate, EndDate = @EndDate where Id = @Id"
+        dbContext.getQuery(query, parameters, false, function(error, data, rowCount) {
+            if (rowCount > 0) {
+                return res.json({
+                    status: 200,
+                    message: 'Record updated'
+                })
+            }
+            return res.json({
+                status: 404,
+                message: 'Record not updated'
+            })
+        })
+    }
+
+    function deleteConference(req, res) {
+        if (req.params.id) {
+            var parameters = [];
+            parameters.push({ name: 'Id', type: TYPES.VarChar, val: req.params.id });
+            var query = "delete from [dbo].[Conferences] where Id = @Id"
+            dbContext.getQuery(query, parameters, false, function(error, data, rowCount) {
+                if (rowCount > 0) {
+                    return res.json({
+                        status: 200,
+                        message: 'Record is deleted'
+                    })
+                }
+                return res.json({
+                    status: 404,
+                    message: 'Record not deleted'
+                })
+            })
+        }
+    }
+
     function getAllConferencesFromToday(req, res) {
         query = "select * from [dbo].[Conferences] where StartDate > GETDATE()"
         dbContext.getQuery(query, [], false, function (error, data) {
@@ -64,6 +124,9 @@ function BuzzwordRepository(dbContext) {
 
     return {
             getAll: getConferences,
+            post: postConference,
+            put: putConference,
+            delete: deleteConference,
             getAllFromToday: getAllConferencesFromToday,
             getBySearch: getAllConferencesBySearch
         }
