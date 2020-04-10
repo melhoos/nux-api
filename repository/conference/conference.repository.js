@@ -8,7 +8,7 @@ function fullSqlQueryBuilder (l, m, y, ofm) {
     query += (m !== undefined) ? " ((DATENAME(month,[StartDate])) LIKE @Month OR (DATENAME(month,[EndDate])) LIKE @Month)" : ""
     query += (m !== undefined && y !== undefined) ? " AND" : "";
     query += (y !== undefined) ? " YEAR([StartDate]) = @Year" : "";
-    query += (y !== undefined && ofm) ? " AND" : "";
+    query += ((y !== undefined || m !== undefined) && ofm) ? " AND" : "";
     query += (ofm) ? " StartDate > GETDATE()" : "";
     return query;
 }
